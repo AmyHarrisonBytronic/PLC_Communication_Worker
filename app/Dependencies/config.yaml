@@ -1,2 +1,5 @@
-key1: value1
-key2: value2
+ip: localhost
+port: 1883
+trigger_topic: magnapower/sortyboi/inference*/trigger
+image_topic: magnapower/sortyboi/camer1/image
+dio_count: 8

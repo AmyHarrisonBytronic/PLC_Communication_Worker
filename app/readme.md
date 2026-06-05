@@ -1,16 +1,30 @@
-App usage notes
+# App
 
-This folder contains application code and dependencies for the worker template.
+This folder contains the PLC communication worker and supporting dependency modules.
 
-Key files:
-- `Dependencies/config.yaml` — default configuration values.
-- `Dependencies/loadConfig.py` — helper to load and parse the config.
+## Key files
+- `main.py` — worker entrypoint for MQTT listening and Vecow I/O handling
+- `Dependencies/config.yaml` — default runtime configuration
+- `Dependencies/loadConfig.py` — configuration loader
+- `Dependencies/dio_controller.py` — digital I/O controller helper
 
-Quick example (from project root):
+## Configuration
+Update `app/Dependencies/config.yaml` with values that match your environment.
+The application expects the following keys:
+- `ip`
+- `port`
+- `trigger_topic`
+- `image_topic`
+- `dio_count`
+- `message`
+
+## Run
+From the repository root:
 
 ```powershell
-python -c "from app.Dependencies import loadConfig; print(loadConfig.load_config())"
+python app/main.py
 ```
 
-Customize `config.yaml` and re-run your worker entrypoint.
+## Notes
+Ensure the configuration file contains all required keys before starting the worker.
 

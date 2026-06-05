@@ -1,14 +1,16 @@
-**Bytronic microservice Template**
+# PLC Communication Worker
 
-Purpose: A minimal Python worker template to jumpstart microservice projects.
+A Python worker that listens for MQTT trigger messages and writes digital I/O values to a Vecow I/O controller.
 
-**Prerequisites**:
+## Requirements
 - Python 3.8 or newer
 - pip
+- An MQTT broker accessible from the configured `ip` and `port`
+- `requirements.txt`
 
-**Quick Start**:
+## Setup
 1. Clone the repository.
-2. Create and activate a virtual environment (PowerShell):
+2. From the repository root:
 
 ```powershell
 python -m venv .venv
@@ -16,24 +18,40 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-3. Edit configuration at `app/Dependencies/config.yaml` as needed.
-4. Run tests:
+3. Update configuration in `app/Dependencies/config.yaml`.
+
+## Configuration
+The worker reads runtime settings from `app/Dependencies/config.yaml`.
+Current application code expects the following keys:
+- `ip`
+- `port`
+- `trigger_topic`
+- `image_topic`
+- `dio_count`
+- `message`
+
+## Run
+From the repository root:
+
+```powershell
+python app/main.py
+```
+
+## Tests
+Run the test suite from the repository root:
 
 ```powershell
 python -m pytest test
 ```
 
-**Configuration**:
-- Main config: `app/Dependencies/config.yaml`.
-- Use the loader in `app/Dependencies/loadConfig.py` to read settings from code.
-
-**Project layout**:
-- `app/` — application code and dependencies
-- `docs/` — documentation and license
-- `test/` — tests and examples
+## Project layout
+- `app/` — application code and runtime dependencies
+- `app/Dependencies/` — configuration loader, I/O helpers, and default config
+- `docs/` — documentation and license assets
+- `test/` — automated test cases
 - `tools/` — helper scripts
 
-**Notes**:
-- See `app/readme.md` for app-specific instructions.
-- License: see `docs/LISENCE`.
+## Notes
+- See `app/readme.md` for app-specific usage notes.
+- License file is `docs/LISENCE`.
 
