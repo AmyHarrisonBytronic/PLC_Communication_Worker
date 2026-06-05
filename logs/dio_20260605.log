@@ -1,0 +1,23 @@
+2026-06-05 14:31:34,002 - [PID 37704] - INFO - Digital I/O controller initialized successfully
+2026-06-05 14:42:07,438 - [PID 32780] - INFO - Failed to load DLLs: Could not find module 'C:\Users\AmyHarrison\plc_commms_Worker\PLC_Communication_Worker\drv.dll' (or one of its dependencies). Try using the full path with constructor syntax.
+2026-06-05 14:42:07,439 - [PID 32780] - INFO - Digital I/O controller initialized successfully
+2026-06-05 14:45:10,661 - [PID 33008] - INFO - Failed to load DLLs: Could not find module 'C:\Users\AmyHarrison\plc_commms_Worker\PLC_Communication_Worker\drv.dll' (or one of its dependencies). Try using the full path with constructor syntax.
+2026-06-05 14:45:10,664 - [PID 33008] - INFO - Digital I/O controller initialized successfully
+2026-06-05 14:59:17,460 - [PID 33164] - INFO - Failed to load DLLs: Could not find module 'C:\Users\AmyHarrison\plc_commms_Worker\PLC_Communication_Worker\drv.dll' (or one of its dependencies). Try using the full path with constructor syntax.
+2026-06-05 14:59:17,463 - [PID 33164] - INFO - Digital I/O controller initialized successfully
+2026-06-05 14:59:26,055 - [PID 33164] - INFO - data received for plc.0,0,0,0,0,0,0
+2026-06-05 15:00:59,080 - [PID 38852] - INFO - Failed to load DLLs: Could not find module 'C:\Users\AmyHarrison\plc_commms_Worker\PLC_Communication_Worker\drv.dll' (or one of its dependencies). Try using the full path with constructor syntax.
+2026-06-05 15:00:59,081 - [PID 38852] - INFO - Digital I/O controller initialized successfully
+2026-06-05 15:01:05,075 - [PID 38852] - INFO - data received for plc.0,0,0,0,0,0,0,0
+2026-06-05 15:01:14,660 - [PID 38852] - INFO - data received for plc.0,0,0,0,0,0,0,0
+2026-06-05 15:01:15,841 - [PID 38852] - INFO - data received for plc.0,0,0,0,0,0,0,0
+2026-06-05 15:01:20,610 - [PID 38852] - INFO - data received for plc.0,0,0,0,0,0,0,0
+2026-06-05 15:01:53,905 - [PID 38852] - INFO - data received for plc.0,0,0,0,1,0,0,0
+2026-06-05 15:09:41,868 - [PID 39296] - INFO - Failed to load DLLs: Could not find module 'C:\Users\AmyHarrison\plc_commms_Worker\PLC_Communication_Worker\drv.dll' (or one of its dependencies). Try using the full path with constructor syntax.
+2026-06-05 15:09:41,868 - [PID 39296] - INFO - Digital I/O controller initialized successfully
+2026-06-05 15:09:58,168 - [PID 39296] - INFO - data received for plc.0,0,0,0,1,0,0,0
+2026-06-05 15:10:05,932 - [PID 39296] - INFO - data received for plc.0,0,0,0,1,0,0,0
+2026-06-05 15:25:16,050 - [PID 33936] - INFO - Failed to load DLLs: Could not find module 'C:\Users\AmyHarrison\plc_commms_Worker\PLC_Communication_Worker\drv.dll' (or one of its dependencies). Try using the full path with constructor syntax.
+2026-06-05 15:25:16,052 - [PID 33936] - INFO - Digital I/O controller initialized successfully
+2026-06-05 15:25:27,816 - [PID 33936] - INFO - data received for plc.0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0
+2026-06-05 15:25:28,319 - [PID 33936] - INFO - Digital IO reset to 0 after delay of. 0.5 seconds.

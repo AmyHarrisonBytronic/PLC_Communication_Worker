@@ -1,5 +1,6 @@
 ip: localhost
 port: 1883
-trigger_topic: magnapower/sortyboi/inference*/trigger
-image_topic: magnapower/sortyboi/camer1/image
-dio_count: 8
+complete_topic: magnapower/sortyboi/inference*/complete
+position_topic: magnapower/sortyboi/inference*/dio_array
+message: trigger_inference
+dio_count: 16

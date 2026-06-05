@@ -39,12 +39,7 @@ class VecowIO:
             other_drv_path = "./drv_alim.dll"
             other_vecow_path = "./Vecow_alim.dll"
             # openhwmon_path = "./OpenHardwareMonitorLib.dll"
-            
-            # Print available functions from each DLL
-            # list_dll_functions(drv_path)
-            # list_dll_functions(vecow_path)
-            # list_dll_functions(other_drv_path)
-            # list_dll_functions(other_vecow_path)
+
             # Load dependencies first
             self.drv_dll = ctypes.CDLL(drv_path) ## for poe
             self.other_drv_dll = ctypes.CDLL(other_drv_path) ## for dio
@@ -63,12 +58,11 @@ class VecowIO:
             # self.get_poe_config()
             
         except Exception as e:
-            print(f"Failed to load DLLs: {e}")
+            logging.info(f"Failed to load DLLs: {e}")
             self.dll = None
             self.drv_dll = None
             self.other_dll = None
             self.other_drv_dll = None
-            # self.openhwmon_dll = None
             
     def initialize_io(self):
         """Initialize the Vecow I/O system"""
@@ -78,24 +72,22 @@ class VecowIO:
         try:
             # # Initialize SIO
             result = self.other_dll.initial_SIO(c_ubyte(1), c_ubyte(0))
-            print("result initial_SIO: ", result)
+            logging.info("result initial_SIO: ", result)
 
             # # Configure I/O
             for i in range(10):
                 result1, result2 = self.set_io_config()
-                print("result1 set_io_config: ", result1, i)
-                print("result2 set_io_config: ", result2, i)
+                logging.info("result1 set_io_config: ", result1, i)
+                logging.info("result2 set_io_config: ", result2, i)
                 self.get_io_config()
                 if result1 and result2:
                     break
                 time.sleep(0.1)
-            # print("result set_io_config: ", result)
-            # self.get_io_config()
             
             self.initialized_io = True
             return True
         except Exception as e:
-            print(f"Initialization of io failed: {e}")
+            logging.info(f"Initialization of io failed: {e}")
             return False
         
     def initialize_poe(self):
@@ -105,15 +97,15 @@ class VecowIO:
             
         try:
             result = self.dll.Initial_POE(c_ubyte(1), c_ubyte(0))
-            # print("result initial_POE: ", result)
+            logging.info("result initial_POE: ", result)
 
             result = self.set_poe_config(0, 0b0000, 0b1111)
-            # print("result set_poe_config: ", result)
+            logging.info("result set_poe_config: ", result)
 
             self.initialized_poe = True
             return True
         except Exception as e:
-            print(f"Initialization of poe failed: {e}")
+            logging.info(f"Initialization of poe failed: {e}")
             return False
 
     def set_io_config(self):
@@ -131,7 +123,7 @@ class VecowIO:
                 result2 = self.other_dll.set_IO2_configuration(DIOIso, DIONPN, DIONPNs, DIOM)
             return result1, result2
         except Exception as e:
-            print(f"Failed to configure DO: {e}")
+            logging.info(f"Failed to configure DO: {e}")
             return False
         
     def get_io_config(self):
@@ -147,15 +139,15 @@ class VecowIO:
             
             result1 = self.other_dll.get_IO1_configuration(byref(DIOIso), byref(DIONPN), byref(DIONPNs), byref(DIOM))
             result2 = self.other_dll.get_IO2_configuration(byref(DIOIso), byref(DIONPN), byref(DIONPNs), byref(DIOM))
-            print("result1 get_io_config: ", result1)
-            print("result2 get_io_config: ", result2)
-            print("DIOIso: ", DIOIso.value)
-            print("DIONPN: ", DIONPN.value)
-            print("DIONPNs: ", DIONPNs.value)
-            print("DIOM: ", DIOM.value)
+            logging.info("result1 get_io_config: ", result1)
+            logging.info("result2 get_io_config: ", result2)
+            logging.info("DIOIso: ", DIOIso.value)
+            logging.info("DIONPN: ", DIONPN.value)
+            logging.info("DIONPNs: ", DIONPNs.value)
+            logging.info("DIOM: ", DIOM.value)
             return result1, result2
         except Exception as e:
-            print(f"Failed to configure DI: {e}")
+            logging.info(f"Failed to configure DI: {e}")
             return False
         
     def get_poe_config(self):
@@ -169,13 +161,13 @@ class VecowIO:
 
             
             result = self.dll.GetPOEConfig(first_byte, byref(second_byte))
-            print("result get_poe_config: ", result)
-            print("first_byte: ", first_byte.value)
-            print("second_byte: ", second_byte.value)
+            logging.info("result get_poe_config: ", result)
+            logging.info("first_byte: ", first_byte.value)
+            logging.info("second_byte: ", second_byte.value)
 
             return result, second_byte.value
         except Exception as e:
-            print(f"Failed to get poe config: {e}")
+            logging.info(f"Failed to get poe config: {e}")
             return False
         
     def set_poe_config(self, first_byte = 0, second_byte = 0, third_byte = 0):
@@ -196,7 +188,7 @@ class VecowIO:
             result = self.dll.SetPOEConfig(auto, mask, other)
             return result
         except Exception as e:
-            print(f"Failed to configure POE: {e}")
+            logging.info(f"Failed to configure POE: {e}")
             return False
 
     def set_do1(self, value):
@@ -208,12 +200,12 @@ class VecowIO:
             # Convert input to byte and apply mask
             do_value = c_ubyte(value & 0xFF)
             result = self.other_dll.set_DIO1(do_value)
-            # print("result set_dio1: ", result)
+            # logging.info("result set_dio1: ", result)
             # result = self.other_dll.set_GPIO1_(do_value)
-            # print("result set_gpio1: ", result)
+            # logging.info("result set_gpio1: ", result)
             return result
         except Exception as e:
-            print(f"Failed to set DO: {e}")
+            logging.info(f"Failed to set DO: {e}")
             return False
 
     def set_do2(self, value):
@@ -225,12 +217,12 @@ class VecowIO:
             # Convert input to byte and apply mask
             do_value = c_ubyte(value & 0xFF)
             result = self.other_dll.set_DIO2(do_value)
-            # print("result set_dio1: ", result)
+            # logging.info("result set_dio1: ", result)
             # result = self.other_dll.set_GPIO1_(do_value)
-            # print("result set_gpio1: ", result)
+            # logging.info("result set_gpio1: ", result)
             return result
         except Exception as e:
-            print(f"Failed to set DO: {e}")
+            logging.info(f"Failed to set DO: {e}")
             return False
 
     def get_di1(self):
@@ -243,15 +235,15 @@ class VecowIO:
             di2 = c_ubyte()
             gpio = c_ushort()
             result = self.other_dll.get_DIO1(byref(di), byref(di2))
-            # print("result get_dio1: ", result, "di: ", di.value, "di2: ", di2.value)
+            # logging.info("result get_dio1: ", result, "di: ", di.value, "di2: ", di2.value)
             # result = self.other_dll.get_GPIO1(byref(gpio))
-            # print("result get_gpio1: ", result, "gpio: ", gpio.value)
+            # logging.info("result get_gpio1: ", result, "gpio: ", gpio.value)
             
             if result:
                 return di.value, di2.value
             return None, None
         except Exception as e:
-            print(f"Failed to read DI: {e}")
+            logging.info(f"Failed to read DI: {e}")
             return None, None
         
 
@@ -265,15 +257,15 @@ class VecowIO:
             di2 = c_ubyte()
             gpio = c_ushort()
             result = self.other_dll.get_DIO2(byref(di), byref(di2))
-            # print("result get_dio1: ", result, "di: ", di.value, "di2: ", di2.value)
+            # logging.info("result get_dio1: ", result, "di: ", di.value, "di2: ", di2.value)
             # result = self.other_dll.get_GPIO1(byref(gpio))
-            # print("result get_gpio1: ", result, "gpio: ", gpio.value)
+            # logging.info("result get_gpio1: ", result, "gpio: ", gpio.value)
             
             if result:
                 return di.value, di2.value
             return None, None
         except Exception as e:
-            print(f"Failed to read DI: {e}")
+            logging.info(f"Failed to read DI: {e}")
             return None, None
 
 
@@ -286,10 +278,10 @@ class VecowIO:
             # Convert input to byte and apply mask
             poe_value = c_ubyte(value & 0xFF)
             result = self.dll.SetPOE(c_ubyte(0), poe_value)
-            print("result set POE: ", result)
+            logging.info("result set POE: ", result)
             return result
         except Exception as e:
-            print(f"Failed to set POE: {e}")
+            logging.info(f"Failed to set POE: {e}")
             return False
         
     def get_poe(self):
@@ -301,14 +293,14 @@ class VecowIO:
             poe_0 = c_ubyte()
             poe_1 = c_ubyte()
             result = self.dll.GetPOE(byref(poe_0), byref(poe_1))
-            print("result get POE: ", result)
+            logging.info("result get POE: ", result)
             if result:
-                print("poe_0.value: ", poe_0.value)
-                print("poe_1.value: ", poe_1.value)
+                logging.info("poe_0.value: ", poe_0.value)
+                logging.info("poe_1.value: ", poe_1.value)
                 return poe_0.value
             return None
         except Exception as e:
-            print(f"Failed to read POE: {e}")
+            logging.info(f"Failed to read POE: {e}")
             return None
         
     def set_do_pin(self, bank, pin, value):
@@ -334,7 +326,7 @@ class VecowIO:
 
             return True
         except Exception as e:
-            print(f"Failed to set DO independent: {e}")
+            logging.info(f"Failed to set DO independent: {e}")
             return False
         
     def set_do_pins(self, bank, pins, value):
@@ -361,7 +353,7 @@ class VecowIO:
                 raise ValueError(f"bank must be 1 or 2 got {bank}")
             return True
         except Exception as e:
-            print(f"Failed to set DO independent: {e}")
+            logging.info(f"Failed to set DO independent: {e}")
             return False
 
     def get_di_pin(self, bank, pin):
@@ -378,7 +370,7 @@ class VecowIO:
             current_value2_bin = [int(bit) for bit in bin(current_value2)[2:].zfill(8)][::-1]
             return current_value2_bin[pin]
         except Exception as e:
-            print(f"Failed to get DI pin: {e}")
+            logging.info(f"Failed to get DI pin: {e}")
             return None, None
         
     def get_di_pins(self, bank, pins):
@@ -395,7 +387,7 @@ class VecowIO:
             current_value2_bin = [int(bit) for bit in bin(current_value2)[2:].zfill(8)][::-1]
             return [current_value2_bin[pin] for pin in pins]
         except Exception as e:
-            print(f"Failed to get DI pin: {e}")
+            logging.info(f"Failed to get DI pin: {e}")
             return None, None
         
     def get_do_pin(self, bank, pin):
@@ -412,7 +404,7 @@ class VecowIO:
             current_value_bin = [int(bit) for bit in bin(current_value)[2:].zfill(8)][::-1]
             return current_value_bin[pin]
         except Exception as e:
-            print(f"Failed to get DI pin: {e}")
+            logging.info(f"Failed to get DI pin: {e}")
             return None, None
 
     def close(self):
@@ -429,7 +421,7 @@ if __name__ == "__main__":
     while True:
         for i in range(2):
             for j in range(8):
-                print(f"setting pin {i+1},{j} to 1")
+                logging.info(f"setting pin {i+1},{j} to 1")
                 io.set_do_pin(i+1,j,1)
                 time.sleep(0.05)
                 io.set_do_pin(i+1,j,0)
