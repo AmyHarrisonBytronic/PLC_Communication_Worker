@@ -21,3 +21,6 @@
 2026-06-05 15:25:16,052 - [PID 33936] - INFO - Digital I/O controller initialized successfully
 2026-06-05 15:25:27,816 - [PID 33936] - INFO - data received for plc.0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0
 2026-06-05 15:25:28,319 - [PID 33936] - INFO - Digital IO reset to 0 after delay of. 0.5 seconds.
+2026-06-05 15:32:03,503 - [PID 3048] - INFO - Failed to set DO independent: bank must be either 1 or 2 got 3
+2026-06-05 15:32:33,586 - [PID 36800] - INFO - Failed to set DO independent: bank must be either 1 or 2 got 3
+2026-06-05 15:33:45,568 - [PID 19244] - INFO - Failed to set DO independent: bank must be either 1 or 2 got 3
