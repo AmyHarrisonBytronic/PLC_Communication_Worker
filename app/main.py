@@ -8,6 +8,8 @@ import threading
 from Dependencies.dio_controller import VecowIO
 import logging
 
+#this is a bit gross make it better in future by creating a config class that can be imported and used to get the values 
+# instead of having them as global variables. This will also make it easier to test and mock the config values in future.
 IP = loadConfig.return_config_value("ip")
 PORT = loadConfig.return_config_value("port")
 PUBLISH_TOPIC = loadConfig.return_config_value("complete_topic")
@@ -111,7 +113,7 @@ def main():
         msg = asyncio.run_coroutine_threadsafe(listen_for_data(data), loop).result()
         if msg is not None:
             set_digital_io(decode_dio_values(msg), dio_controller)
-            completed = f"dio updated at{time.time()}"
+            completed = f"dio updated at{time.strftime('%Y-%m-%d %H:%M:%S')}"
             data_bytes = completed.encode('utf-8') if isinstance(completed, str) else completed
             data.PublishMessage(PUBLISH_TOPIC, data_bytes)
             asyncio.run_coroutine_threadsafe(reset_io_after_delay(dio_controller, DIO_RESET_DELAY), loop)
