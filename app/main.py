@@ -14,6 +14,12 @@ PUBLISH_TOPIC = loadConfig.return_config_value("complete_topic")
 POSITION_TOPIC = loadConfig.return_config_value("position_topic")
 DIO_COUNT = loadConfig.return_config_value("dio_count")
 DIO_RESET_DELAY = loadConfig.return_config_value("dio_reset_delay")
+DIO_BLOCK_SIZE = loadConfig.return_config_value("dio_block_size")
+
+DIO_BANKS = DIO_COUNT // DIO_BLOCK_SIZE
+
+if DIO_COUNT % DIO_BLOCK_SIZE != 0:
+    raise ValueError(f"Error: dio_count must be a multiple of dio_block_size. Received dio_count={DIO_COUNT} and dio_block_size={DIO_BLOCK_SIZE}.")
 
 logging.basicConfig(
     filename=f'./logs/dio_{time.strftime("%Y%m%d")}.log',
@@ -55,12 +61,13 @@ async def listen_for_data(data: mqttClass) -> Optional[str]:
 
 async def reset_io_after_delay(dio_controller: VecowIO, delay: int):
     # This function will reset all digital IO to 0.
+    # this will be better as a loop to make it more expanisve
     await asyncio.sleep(delay)
     for i in range(DIO_COUNT):
-        if i < DIO_COUNT/2:
+        if i < DIO_COUNT/DIO_BANKS:
             dio_controller.set_do_pin(1, i, 0)
         else:
-            dio_controller.set_do_pin(2, i - int(DIO_COUNT/2), 0)
+            dio_controller.set_do_pin(2, i - int(DIO_COUNT/DIO_BANKS), 0)
     logging.info(f"Digital IO reset to 0 after delay of. {delay} seconds.")
     return
 
@@ -78,11 +85,12 @@ def set_digital_io(dio_values: list, dio_controller: VecowIO):
         raise ValueError(f"Error: Expected {DIO_COUNT} digital IO values, but received {len(dio_values)}.")     
         
     for i in range(DIO_COUNT):
+        # create a function to make this more expansive in future
         dio_state = dio_values[i]
         if i < DIO_COUNT/2:
             dio_controller.set_do_pin(1, i, dio_state)
         else:
-            dio_controller.set_do_pin(2, i - int(DIO_COUNT/2), dio_state)
+            dio_controller.set_do_pin(2, i - int(DIO_COUNT/DIO_BANKS), dio_state)
     pass
 
 def main():
